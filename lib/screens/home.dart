@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class home extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
   _homeState createState() => _homeState();
 }
 
-class _homeState extends State<home> {
+class _homeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     var size=MediaQuery.of(context).size;
@@ -141,8 +141,8 @@ class _homeState extends State<home> {
                     ),
                   )
               ),
-
-            ],),
+            ],
+            ),
           )
         ],
       ),

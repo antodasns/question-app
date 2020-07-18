@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'screens/home.dart';
+import 'package:questionservice/screens/questions.dart';
+import 'package:questionservice/screens/result.dart';
+import 'package:questionservice/screens/home.dart';
 
 
 
@@ -12,10 +13,11 @@ class QuestionService extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: "/homelist",
+      initialRoute: "/home",
       routes: {
-        "/homelist":(context) => home(),
-
+        "/home":(context) => Home(),
+        "/question":(context) => Question(),
+        "/result":(context) => Result(),
       },
     );
   }
