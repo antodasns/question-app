@@ -9,17 +9,25 @@ Future<String>loadQuestionFromAssets() async{
 }
 
 Future<List<Questions>> loadQuestion() async{
-  String jsonString =await loadQuestionFromAssets();
-//  final jsonResponse=json.decode(jsonString.toString());
-  List<Questions> question = questionsFromJson(jsonString);
+  String url = 'http://10.0.2.2:5000/question/maths/1';
+  final response = await http.get(url);
+  List<Questions> question = questionsFromJson(response.body);
   return question;
 }
 
-
 //Future<List<Questions>> loadQuestion() async{
-//  String url = 'https://jsonplaceholder.typicode.com/photos';
-//  final response = await http.get(url);
-//  List<Questions> question = questionsFromJson(response.body);
-//  print(response.body);
+//  String jsonString =await loadQuestionFromAssets();
+////  final jsonResponse=json.decode(jsonString.toString());
+//  List<Questions> question = questionsFromJson(jsonString);
 //  return question;
 //}
+
+//Future<String> loadQuestion() async{
+//  String url = 'http://10.0.2.2:5000/question/maths/1';
+//  final response = await http.get(url);
+////  String qstns  = json.decode(response.body);
+//  String jsonString =await loadQuestionFromAssets();
+////  print(response.body);
+//  return response.body;
+//}
+

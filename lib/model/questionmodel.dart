@@ -10,32 +10,40 @@ String questionsToJson(List<Questions> data) => json.encode(List<dynamic>.from(d
 
 class Questions {
   Questions({
-    this.id,
-    this.qcategory,
-    this.question,
-    this.correctoption,
     this.options,
+    this.question,
   });
 
-  String id;
-  String qcategory;
+  List<Option> options;
   String question;
-  String correctoption;
-  List<String> options;
 
   factory Questions.fromJson(Map<String, dynamic> json) => Questions(
-    id: json["id"],
-    qcategory: json["qcategory"],
+    options: List<Option>.from(json["options"].map((x) => Option.fromJson(x))),
     question: json["question"],
-    correctoption: json["correctoption"],
-    options: List<String>.from(json["options"].map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "qcategory": qcategory,
+    "options": List<dynamic>.from(options.map((x) => x.toJson())),
     "question": question,
-    "correctoption": correctoption,
-    "options": List<dynamic>.from(options.map((x) => x)),
+  };
+}
+
+class Option {
+  Option({
+    this.a,
+    this.b,
+  });
+
+  String a;
+  String b;
+
+  factory Option.fromJson(Map<String, dynamic> json) => Option(
+    a: json["a"],
+    b: json["b"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "a": a,
+    "b": b,
   };
 }

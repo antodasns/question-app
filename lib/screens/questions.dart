@@ -22,6 +22,13 @@ class _QuestionState extends State<Question> {
       Provider.of<QuestionNotifier>(context,listen:false).loadQuestionList();
       QuestionNotifier questionNotifier = Provider.of<QuestionNotifier>(context, listen: false);
       print(questionNotifier.questionList);
+      for(Questions x in questionNotifier.questionList){
+        print(x.question);
+        for(Option y in x.options){
+          print(y.a);
+          print(y.b);
+        }
+      }
     }
     );
   }
