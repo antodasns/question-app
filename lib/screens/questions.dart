@@ -1,5 +1,11 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:questionservice/api/questionapi.dart';
+import 'package:questionservice/model/questionmodel.dart';
+import 'package:questionservice/state/questionnotifier.dart';
 
 class Question extends StatefulWidget {
   @override
@@ -7,8 +13,22 @@ class Question extends StatefulWidget {
 }
 
 class _QuestionState extends State<Question> {
+
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      Provider.of<QuestionNotifier>(context,listen:false).loadQuestionList();
+      QuestionNotifier questionNotifier = Provider.of<QuestionNotifier>(context, listen: false);
+      print(questionNotifier.questionList);
+    }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+
     var size=MediaQuery.of(context).size;
     return Stack(
       children: <Widget>[
