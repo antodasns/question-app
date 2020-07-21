@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:questionservice/state/questionnotifier.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -6,6 +9,14 @@ class Home extends StatefulWidget {
 }
 
 class _homeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      Provider.of<QuestionNotifier>(context,listen:false).loadQuestionList(1);
+    }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     double cardWidth = MediaQuery.of(context).size.width / 3.3;

@@ -8,8 +8,8 @@ Future<String>loadQuestionFromAssets() async{
   return await rootBundle.loadString('assets/json/qst.json');
 }
 
-Future<List<Questions>> loadQuestion() async{
-  String url = 'http://10.0.2.2:5000/question/maths/1';
+Future<List<Questions>> loadQuestion(qst_id) async{
+  String url = 'http://10.0.2.2:5000/question/maths/'+qst_id.toString();
   final response = await http.get(url);
   List<Questions> question = questionsFromJson(response.body);
   return question;

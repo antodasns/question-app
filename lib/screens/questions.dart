@@ -14,29 +14,23 @@ class Question extends StatefulWidget {
 
 class _QuestionState extends State<Question> {
 
-
+  int nextqst=1;
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      Provider.of<QuestionNotifier>(context,listen:false).loadQuestionList();
-      QuestionNotifier questionNotifier = Provider.of<QuestionNotifier>(context, listen: false);
-      print(questionNotifier.questionList);
-      for(Questions x in questionNotifier.questionList){
-        print(x.question);
-        for(Option y in x.options){
-          print(y.a);
-          print(y.b);
-        }
-      }
+      Provider.of<QuestionNotifier>(context,listen:false).loadQuestionList(nextqst);
     }
     );
   }
 
   @override
   Widget build(BuildContext context) {
-
+    QuestionNotifier questionNotifier = Provider.of<QuestionNotifier>(context, listen: false);
     var size=MediaQuery.of(context).size;
+    for(Questions x in questionNotifier.questionList)
+      for(Option y in x.options)
+
     return Stack(
       children: <Widget>[
         Container(
@@ -72,9 +66,10 @@ class _QuestionState extends State<Question> {
                   child: Column(
                     mainAxisAlignment:MainAxisAlignment.spaceAround,
                     children: <Widget>[
+
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text("Question 1 of 20",
+                        child: Text("Question "+nextqst.toString()+" of 5",
                           style: GoogleFonts.notoSansKR(
                             textStyle: TextStyle(color: Colors.deepPurple,
                             decoration: TextDecoration.none),
@@ -83,7 +78,7 @@ class _QuestionState extends State<Question> {
                           ),
                         ),
                       ),
-                      Text("Light has no mass so it also has no energy according to Einstein, but how can sunlight warm the earth without energy?",
+                      Text(x.question,
                         style: GoogleFonts.notoSansKR(
                           textStyle: TextStyle(color: Colors.black,
                               decoration: TextDecoration.none),
@@ -110,11 +105,50 @@ class _QuestionState extends State<Question> {
                               },
                               child:Column(
                                 children: <Widget>[
+                                  for(Option y in x.options)
                                   Padding(
                                     padding:EdgeInsets.fromLTRB(30, 15, 130, 15) ,
                                     child: Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Text("A.Maths",
+                                      child: Text("A."+y.a,
+                                        style: GoogleFonts.notoSansKR(
+                                          textStyle: TextStyle(color: Colors.deepPurple,
+                                              decoration: TextDecoration.none),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                        ),),
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                            )
+                        ),
+                      ),
+                      Material(
+                        child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: InkWell(
+                              onTap: (){
+                              },
+                              child:Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding:EdgeInsets.fromLTRB(30, 15, 130, 15) ,
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("B."+y.b,
                                         style: GoogleFonts.notoSansKR(
                                           textStyle: TextStyle(color: Colors.deepPurple,
                                               decoration: TextDecoration.none),
@@ -151,7 +185,7 @@ class _QuestionState extends State<Question> {
                                     padding:EdgeInsets.fromLTRB(30, 15, 130, 15) ,
                                     child: Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Text("A.Maths",
+                                      child: Text("C."+y.c,
                                         style: GoogleFonts.notoSansKR(
                                           textStyle: TextStyle(color: Colors.deepPurple,
                                               decoration: TextDecoration.none),
@@ -188,44 +222,7 @@ class _QuestionState extends State<Question> {
                                     padding:EdgeInsets.fromLTRB(30, 15, 130, 15) ,
                                     child: Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Text("A.Maths",
-                                        style: GoogleFonts.notoSansKR(
-                                          textStyle: TextStyle(color: Colors.deepPurple,
-                                              decoration: TextDecoration.none),
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                        ),),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                        ),
-                      ),
-                      Material(
-                        child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: InkWell(
-                              onTap: (){
-                              },
-                              child:Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding:EdgeInsets.fromLTRB(30, 15, 130, 15) ,
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text("A.Maths",
+                                      child: Text("D."+y.d,
                                         style: GoogleFonts.notoSansKR(
                                           textStyle: TextStyle(color: Colors.deepPurple,
                                               decoration: TextDecoration.none),
@@ -242,7 +239,12 @@ class _QuestionState extends State<Question> {
                       Align(
                         alignment: Alignment.bottomRight,
                         child: FlatButton(
-                          onPressed: () {Navigator.pushNamed(context, '/result');},
+                          onPressed: () {
+//                            Navigator.pushNamed(context, '/question');
+                          setState(() {
+                            nextqst=nextqst+1;
+                            Provider.of<QuestionNotifier>(context,listen:false).loadQuestionList(nextqst);
+                          });},
                           child: Text('NEXT',
                             style: GoogleFonts.notoSansKR(
                               textStyle: TextStyle(color: Colors.deepPurple,

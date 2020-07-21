@@ -5,8 +5,8 @@ import 'package:questionservice/model/questionmodel.dart';
 class QuestionNotifier with ChangeNotifier{
   List <Questions> _questionList = List<Questions>();
 
-void loadQuestionList() async {
-  loadQuestion().then((question){
+void loadQuestionList(qst_id) async {
+  loadQuestion(qst_id).then((question){
     _questionList=question;
   });
   notifyListeners();
