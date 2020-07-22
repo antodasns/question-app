@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:questionservice/api/questionapi.dart';
@@ -15,19 +13,13 @@ class Question extends StatefulWidget {
 class _QuestionState extends State<Question> {
 
   int nextqst=1;
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      Provider.of<QuestionNotifier>(context,listen:false).loadQuestionList(nextqst);
-    }
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
-    QuestionNotifier questionNotifier = Provider.of<QuestionNotifier>(context, listen: false);
+    QuestionNotifier questionNotifier = Provider.of<QuestionNotifier>(context);
+
     var size=MediaQuery.of(context).size;
+    for(Questions x in questionNotifier.questionList)
     for(Questions x in questionNotifier.questionList)
       for(Option y in x.options)
 
@@ -102,6 +94,7 @@ class _QuestionState extends State<Question> {
                             ),
                             child: InkWell(
                               onTap: (){
+                                Provider.of<QuestionNotifier>(context,listen:false).optionSelected(x.id,"a");
                               },
                               child:Column(
                                 children: <Widget>[
@@ -141,6 +134,7 @@ class _QuestionState extends State<Question> {
                             ),
                             child: InkWell(
                               onTap: (){
+                                Provider.of<QuestionNotifier>(context,listen:false).optionSelected(x.id,"b");
                               },
                               child:Column(
                                 children: <Widget>[
@@ -178,6 +172,7 @@ class _QuestionState extends State<Question> {
                             ),
                             child: InkWell(
                               onTap: (){
+                                Provider.of<QuestionNotifier>(context,listen:false).optionSelected(x.id,"c");
                               },
                               child:Column(
                                 children: <Widget>[
@@ -215,6 +210,7 @@ class _QuestionState extends State<Question> {
                             ),
                             child: InkWell(
                               onTap: (){
+                                Provider.of<QuestionNotifier>(context,listen:false).optionSelected(x.id,"d");
                               },
                               child:Column(
                                 children: <Widget>[
@@ -240,12 +236,21 @@ class _QuestionState extends State<Question> {
                         alignment: Alignment.bottomRight,
                         child: FlatButton(
                           onPressed: () {
-//                            Navigator.pushNamed(context, '/question');
                           setState(() {
                             nextqst=nextqst+1;
-                            Provider.of<QuestionNotifier>(context,listen:false).loadQuestionList(nextqst);
-                          });},
-                          child: Text('NEXT',
+                            int selqstn=Provider.of<QuestionNotifier>(context,listen:false).selqstn;
+                            String seloption=Provider.of<QuestionNotifier>(context,listen:false).seloption;
+                            postOption(selqstn,seloption);
+
+                            String subcat=Provider.of<QuestionNotifier>(context,listen:false).subject;
+                            Provider.of<QuestionNotifier>(context,listen:false).loadQuestionList(subcat,nextqst);
+
+                            if (nextqst==6){
+                              Navigator.pushReplacementNamed(context, '/result');
+                            }
+                          });
+                          },
+                          child: Text(Provider.of<QuestionNotifier>(context,listen:false).qbtn,
                             style: GoogleFonts.notoSansKR(
                               textStyle: TextStyle(color: Colors.deepPurple,
                                   decoration: TextDecoration.none),

@@ -9,7 +9,7 @@ import 'package:questionservice/state/questionnotifier.dart';
 
 void main() => runApp(MultiProvider(
           providers:[
-          ChangeNotifierProvider(create: (context) => QuestionNotifier()),
+          ChangeNotifierProvider(create: (_) => QuestionNotifier()),
           ],
       child: QuestionService()));
 class QuestionService extends StatelessWidget {

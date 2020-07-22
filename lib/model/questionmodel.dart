@@ -59,3 +59,30 @@ class Option {
     "d": d,
   };
 }
+
+
+
+
+Answer answerFromJson(String str) => Answer.fromJson(json.decode(str));
+
+String answerToJson(Answer data) => json.encode(data.toJson());
+
+class Answer {
+  Answer({
+    this.qstnid,
+    this.option,
+  });
+
+  int qstnid;
+  String option;
+
+  factory Answer.fromJson(Map<String, dynamic> json) => Answer(
+    qstnid: json["qstnid"],
+    option: json["option"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "qstnid": qstnid,
+    "option": option,
+  };
+}

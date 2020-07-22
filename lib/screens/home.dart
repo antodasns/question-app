@@ -9,13 +9,13 @@ class Home extends StatefulWidget {
 }
 
 class _homeState extends State<Home> {
+  String subcat;
   @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      Provider.of<QuestionNotifier>(context,listen:false).loadQuestionList(1);
-    }
-    );
+
+  void subjectstate (su) async{
+    await Provider.of<QuestionNotifier>(context,listen:false).loadSubject(su);
+    await Provider.of<QuestionNotifier>(context,listen:false).loadQuestionList(su,1);
+    await Navigator.pushReplacementNamed(context, '/question');
   }
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,9 @@ class _homeState extends State<Home> {
                         ),
                         child: InkWell(
                           onTap: (){
-                            Navigator.pushNamed(context, '/question');
+                            setState((){
+                              subjectstate('maths');
+                            });
                           },
                           child:Column(
                             children: <Widget>[
@@ -97,7 +99,11 @@ class _homeState extends State<Home> {
                           ],
                         ),
                         child: InkWell(
-                          onTap: (){},
+                          onTap: (){
+                            setState((){
+                              subjectstate('physics');
+                            });
+                          },
                           child:Column(
                             children: <Widget>[
                               Padding(
@@ -122,7 +128,11 @@ class _homeState extends State<Home> {
                           ],
                         ),
                         child: InkWell(
-                          onTap: (){},
+                          onTap: (){
+                            setState((){
+                              subjectstate('chemistry');
+                            });
+                          },
                           child:Column(
                             children: <Widget>[
                               Padding(
@@ -147,7 +157,11 @@ class _homeState extends State<Home> {
                           ],
                         ),
                         child: InkWell(
-                          onTap: (){},
+                          onTap: (){
+                            setState((){
+                              subjectstate('biology');
+                            });
+                          },
                           child:Column(
                             children: <Widget>[
                               Padding(
