@@ -11,19 +11,44 @@ class Question extends StatefulWidget {
 }
 
 class _QuestionState extends State<Question> {
-
+  void savedContent(BuildContext context)//popup box
+  {
+    var alertDialog = AlertDialog(
+      backgroundColor:Colors.grey,
+      title:Text("Test Completed",
+      ),
+      content:Text("You're a smart cookie.",
+      ),
+    );
+    showDialog(
+        context:context,
+        builder:(BuildContext context)=>alertDialog
+    );
+  }
   int nextqst=1;
+  int qcount=1;
+  Color acolor;
+  Color bcolor;
+  Color ccolor;
+  Color dcolor;
+  void initState() {
+    super.initState();
+
+    acolor = Colors.white;
+    bcolor = Colors.white;
+    ccolor = Colors.white;
+    dcolor = Colors.white;
+  }
 
   @override
   Widget build(BuildContext context) {
     QuestionNotifier questionNotifier = Provider.of<QuestionNotifier>(context);
-
+    bool isButtonPressed = false;
     var size=MediaQuery.of(context).size;
     for(Questions x in questionNotifier.questionList)
     for(Questions x in questionNotifier.questionList)
-      for(Option y in x.options)
-
-    return Stack(
+      for(Option y in x.options) {
+        return Stack(
       children: <Widget>[
         Container(
           height: size.height,
@@ -61,7 +86,7 @@ class _QuestionState extends State<Question> {
 
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text("Question "+nextqst.toString()+" of 5",
+                        child: Text("Question "+qcount.toString()+" of 5",
                           style: GoogleFonts.notoSansKR(
                             textStyle: TextStyle(color: Colors.deepPurple,
                             decoration: TextDecoration.none),
@@ -81,7 +106,7 @@ class _QuestionState extends State<Question> {
                       Material(
                         child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: acolor,
                               borderRadius: BorderRadius.circular(5),
                               boxShadow: [
                                 BoxShadow(
@@ -95,6 +120,13 @@ class _QuestionState extends State<Question> {
                             child: InkWell(
                               onTap: (){
                                 Provider.of<QuestionNotifier>(context,listen:false).optionSelected(x.id,"a");
+                                setState(() {
+                                  acolor = Colors.lightBlueAccent;
+                                  bcolor = Colors.white;
+                                  ccolor = Colors.white;
+                                  dcolor = Colors.white;
+                                });
+
                               },
                               child:Column(
                                 children: <Widget>[
@@ -121,7 +153,7 @@ class _QuestionState extends State<Question> {
                       Material(
                         child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: bcolor,
                               borderRadius: BorderRadius.circular(5),
                               boxShadow: [
                                 BoxShadow(
@@ -135,6 +167,12 @@ class _QuestionState extends State<Question> {
                             child: InkWell(
                               onTap: (){
                                 Provider.of<QuestionNotifier>(context,listen:false).optionSelected(x.id,"b");
+                                setState(() {
+                                  bcolor = Colors.lightBlueAccent;
+                                  acolor = Colors.white;
+                                  ccolor = Colors.white;
+                                  dcolor = Colors.white;
+                                });
                               },
                               child:Column(
                                 children: <Widget>[
@@ -159,7 +197,7 @@ class _QuestionState extends State<Question> {
                       Material(
                         child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: ccolor,
                               borderRadius: BorderRadius.circular(5),
                               boxShadow: [
                                 BoxShadow(
@@ -173,6 +211,12 @@ class _QuestionState extends State<Question> {
                             child: InkWell(
                               onTap: (){
                                 Provider.of<QuestionNotifier>(context,listen:false).optionSelected(x.id,"c");
+                                setState(() {
+                                  ccolor = Colors.lightBlueAccent;
+                                  acolor = Colors.white;
+                                  bcolor = Colors.white;
+                                  dcolor = Colors.white;
+                                });
                               },
                               child:Column(
                                 children: <Widget>[
@@ -197,7 +241,7 @@ class _QuestionState extends State<Question> {
                       Material(
                         child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: dcolor,
                               borderRadius: BorderRadius.circular(5),
                               boxShadow: [
                                 BoxShadow(
@@ -211,6 +255,12 @@ class _QuestionState extends State<Question> {
                             child: InkWell(
                               onTap: (){
                                 Provider.of<QuestionNotifier>(context,listen:false).optionSelected(x.id,"d");
+                                setState(() {
+                                  dcolor = Colors.lightBlueAccent;
+                                  acolor = Colors.white;
+                                  ccolor = Colors.white;
+                                  bcolor = Colors.white;
+                                });
                               },
                               child:Column(
                                 children: <Widget>[
@@ -238,15 +288,37 @@ class _QuestionState extends State<Question> {
                           onPressed: () {
                           setState(() {
                             nextqst=nextqst+1;
+                            qcount=qcount+1;
+                            if (qcount>5){
+                              qcount=5;
+                            }
+                            acolor = Colors.white;
+                            bcolor = Colors.white;
+                            ccolor = Colors.white;
+                            dcolor = Colors.white;
                             int selqstn=Provider.of<QuestionNotifier>(context,listen:false).selqstn;
                             String seloption=Provider.of<QuestionNotifier>(context,listen:false).seloption;
-                            postOption(selqstn,seloption);
+
+                            addoption(selqstn,seloption);
 
                             String subcat=Provider.of<QuestionNotifier>(context,listen:false).subject;
-                            Provider.of<QuestionNotifier>(context,listen:false).loadQuestionList(subcat,nextqst);
+
 
                             if (nextqst==6){
-                              Navigator.pushReplacementNamed(context, '/result');
+
+                              addoption(selqstn,seloption);
+                              Provider.of<QuestionNotifier>(context,listen:false).postoptions();
+                              Provider.of<QuestionNotifier>(context,listen:false).loadScore(subcat);
+                              savedContent(context);
+                              Future.delayed(Duration(seconds: 3),(){
+                                return Navigator.pushReplacementNamed(context, '/result');
+                              });
+
+
+
+                            }
+                            else{
+                              Provider.of<QuestionNotifier>(context,listen:false).loadQuestionList(subcat,nextqst);
                             }
                           });
                           },
@@ -268,5 +340,6 @@ class _QuestionState extends State<Question> {
         ),
       ],
     );
+      }
   }
 }

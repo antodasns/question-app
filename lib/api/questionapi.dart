@@ -19,13 +19,26 @@ Future<List<Questions>> loadQuestion(subcat,qst_id) async{
   return question;
 }
 
-Future<http.Response> postOption(id,option) async {
+
+List<Answer> _answer=List<Answer>();
+addoption(id,option){
+_answer.add(Answer(
+  qstnid: id,
+  option: option
+)
+);
+return _answer;
+}
+List <Answer> get answer => _answer;
+
+
+Future<http.Response> postOption() async {
   var url ='http://10.0.2.2:5000/question/selectedoption/';
-  Map<String, dynamic> data = {
-    "qstnid":id,
-    "option":option
-  };
-  var body = json.encode(data);
+//  Map<String, dynamic> data = {
+//    "qstnid":id,
+//    "option":option
+//  };
+  var body = json.encode(answer);
   var response = await http.post(url,
       headers: { "accept": "application/json", "content-type": "application/json" },
       body: body
@@ -33,7 +46,12 @@ Future<http.Response> postOption(id,option) async {
   return response;
 }
 
-
+Future<Score> score(subcat) async{
+  String url = 'http://10.0.2.2:5000/question/result/'+subcat;
+  final response = await http.get(url);
+  Score scores = scoreFromJson(response.body);
+  return scores;
+}
 
 //Future<List<Questions>> loadQuestion() async{
 //  String jsonString =await loadQuestionFromAssets();

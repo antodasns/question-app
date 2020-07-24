@@ -8,6 +8,8 @@ class QuestionNotifier with ChangeNotifier{
   String _qbtn;
   int _selqstn;
   String _seloption;
+  Score _scores=Score();
+
 
 
 void loadQuestionList(subcat,qst_id) async {
@@ -32,9 +34,19 @@ void optionSelected(qstn,option){
   _seloption=option;
   notifyListeners();
   }
+
+void postoptions()async{
+  await postOption();
+}
+  void loadScore(subcat) async {
+  await score(subcat).then((scores){
+    _scores=scores;
+  });
+  }
   List <Questions> get questionList => _questionList;
   String get subject => _subject;
   String get qbtn => _qbtn;
   int get selqstn => _selqstn;
   String get seloption => _seloption;
+  Score get scores=> _scores;
 }

@@ -63,9 +63,9 @@ class Option {
 
 
 
-Answer answerFromJson(String str) => Answer.fromJson(json.decode(str));
+List<Answer> answerFromJson(String str) => List<Answer>.from(json.decode(str).map((x) => Answer.fromJson(x)));
 
-String answerToJson(Answer data) => json.encode(data.toJson());
+String answerToJson(List<Answer> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Answer {
   Answer({
@@ -84,5 +84,35 @@ class Answer {
   Map<String, dynamic> toJson() => {
     "qstnid": qstnid,
     "option": option,
+  };
+}
+
+
+
+Score scoreFromJson(String str) => Score.fromJson(json.decode(str));
+
+String scoreToJson(Score data) => json.encode(data.toJson());
+
+class Score {
+  Score({
+    this.score,
+    this.previousScore,
+    this.highscore,
+  });
+
+  int score;
+  int previousScore;
+  int highscore;
+
+  factory Score.fromJson(Map<String, dynamic> json) => Score(
+    score: json["score"],
+    previousScore: json["previous_score"],
+    highscore: json["highscore"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "score": score,
+    "previous_score": previousScore,
+    "highscore": highscore,
   };
 }
