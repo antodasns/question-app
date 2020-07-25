@@ -32,6 +32,7 @@ void loadQuestionList(subcat,qst_id) async {
 void optionSelected(qstn,option){
   _selqstn=qstn;
   _seloption=option;
+
   notifyListeners();
   }
 

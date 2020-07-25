@@ -10,7 +10,14 @@ class Result extends StatefulWidget {
 }
 
 class _ResultState extends State<Result> {
-
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      String subcat=Provider.of<QuestionNotifier>(context,listen:false).subject;
+      Provider.of<QuestionNotifier>(context,listen:false).loadScore(subcat);
+    }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     String subcat=Provider.of<QuestionNotifier>(context,listen:false).subject;

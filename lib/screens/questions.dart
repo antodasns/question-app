@@ -306,13 +306,12 @@ class _QuestionState extends State<Question> {
 
                             if (nextqst==6){
 
-                              addoption(selqstn,seloption);
+
                               Provider.of<QuestionNotifier>(context,listen:false).postoptions();
                               Provider.of<QuestionNotifier>(context,listen:false).loadScore(subcat);
-                              savedContent(context);
-                              Future.delayed(Duration(seconds: 3),(){
-                                return Navigator.pushReplacementNamed(context, '/result');
-                              });
+
+                            Navigator.pushReplacementNamed(context, '/preresult');
+
 
 
 

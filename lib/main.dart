@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:questionservice/screens/preresult.dart';
 import 'package:questionservice/screens/questions.dart';
 import 'package:questionservice/screens/result.dart';
 import 'package:questionservice/screens/home.dart';
@@ -20,6 +21,7 @@ class QuestionService extends StatelessWidget {
       routes: {
         "/home":(context) => Home(),
         "/question":(context) => Question(),
+        "/preresult":(context) => Preresult(),
         "/result":(context) => Result(),
       },
     );
